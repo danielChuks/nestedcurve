@@ -1,8 +1,8 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { Body, HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
-import {  User, UserDocument , userDTO} from 'src/schema/user.model';
-//import { UserDto } from 'src/dtos/users.Dto';
+import {  User, UserDocument } from 'src/schema/user.model';
+import { UserDto } from 'src/dtos/users.Dto';
 
 
 @Injectable()
@@ -17,11 +17,8 @@ async getUsers(): Promise<User[]> {
 }
 
     
-async createUsers(user: typeof userDTO): Promise<User>{
+async createUsers(user: UserDto): Promise<UserDocument> {
     const newUser = new this.userModel(user)
     return await newUser.save()
-
 }
-
-
 }
