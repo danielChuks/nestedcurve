@@ -1,4 +1,4 @@
-import { Body, HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import {  User, UserDocument } from 'src/schema/user.model';
@@ -29,5 +29,16 @@ async createUsers(user: UserDto): Promise<UserDocument> {
 
 async getUsersById(_id: string ): Promise<User> {
     return this.userModel.findById({_id}, "-password").exec()
+}
+
+
+async deleteUser(id: string ): Promise<User> {
+    return this.userModel.findByIdAndDelete({ _id: id})
+
+}
+
+
+async updateUsers(id: string, email: string , username: string, password: string ): Promise<User>{
+    return this.userModel.findByIdAndUpdate(id, {username, email, password});
 }
 }
