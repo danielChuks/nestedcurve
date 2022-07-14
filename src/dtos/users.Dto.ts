@@ -1,4 +1,5 @@
 import { IsNotEmpty, IsEmail,  } from "class-validator";
+import { Exclude } from "class-transformer";
 
 export class UserDto {
  
@@ -6,8 +7,9 @@ export class UserDto {
     email: string;
 
     @IsNotEmpty()
-    username: string ;
+    username: string;
 
-    @IsNotEmpty()
+    @Exclude()
     password: string;
+
 }

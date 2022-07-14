@@ -15,10 +15,19 @@ export class UsersService {
 async getUsers(): Promise<User[]> {
     return this.userModel.find({}, "-password").exec()
 }
-
     
 async createUsers(user: UserDto): Promise<UserDocument> {
-    const newUser = new this.userModel(user)
-    return await newUser.save()
+    const userExist = await this.userModel.findOne({email: user.email}).exec()
+        if(userExist) throw new HttpException("User with this email already exsist", HttpStatus.BAD_REQUEST)
+
+    const createUser = new this.userModel({
+        ...user,
+        createdAt: new Date().toISOString(),
+    })
+    return await createUser.save()
+}
+
+async getUsersById(_id: string ): Promise<User> {
+    return this.userModel.findById({_id}, "-password").exec()
 }
 }
